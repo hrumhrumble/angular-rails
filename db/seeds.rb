@@ -5,3 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+3.times do |index|
+  Course.create(name: "Course #{index}", passed: false)
+end
+4.times do |index|
+  Course.create(name: "Course #{index}", passed: true)
+end

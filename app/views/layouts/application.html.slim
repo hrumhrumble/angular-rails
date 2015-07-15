@@ -1,0 +1,13 @@
+doctype html
+html ng-app="Course"
+  head
+    title AngularRails
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+
+    = javascript_include_tag '/angular'
+    = javascript_include_tag '/lodash'
+    = javascript_include_tag '/restangular'
+    = csrf_meta_tags
+  body
+    = yield

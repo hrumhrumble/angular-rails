@@ -1,0 +1,25 @@
+.container ng-cloak=""
+  div ng-controller="CourseManagerCtrl"
+    form.form-inline.course_form name="CourseForm" novalidate="" ng-submit="addCourse()"
+      .form-group
+        input.form-control type="text" placeholder="Название курса" ng-model="courseTitle" required=""
+        '
+        button.btn.btn-success ng-disabled="CourseForm.$invalid" Добавить курс
+      .form-group ng-bind-template="Пройдено курсов {{ (allAccounts | filter: {passed: true}).length }}"
+      .form-group ng-bind-template="из {{allAccounts.length}}"
+
+    table.table.table-bordered
+      thead
+        tr
+          td Название курса
+          td Дата создания
+          td Состояние
+          td
+          td Удаление
+      tbody checked-tr=""
+        tr ng-class="course.passed ? 'success': 'danger'" ng-repeat="course in allAccounts | orderBy : '+created_at' | orderBy : 'passed'"
+          td.course_name {{course.name}}
+          td.course_create {{course.created_at | date : "dd-MM-yyyy"}}
+          td.course_check: input id="checkbox_passed_{{$index}}" type="checkbox" ng-model="course.passed" ng-change="updateCourse(course, $index)"
+          td.course_label: label for="checkbox_passed_{{$index}}" {{setDescription(course.passed)}}
+          td.course_delete: span ng-click="deleteCourse(course, $index)" delete
