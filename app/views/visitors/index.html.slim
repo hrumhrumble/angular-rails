@@ -1,25 +1,29 @@
-.container ng-cloak=""
+.container ng-app="Course" ng-cloak=""
   div ng-controller="CourseManagerCtrl"
     form.form-inline.course_form name="CourseForm" novalidate="" ng-submit="addCourse()"
       .form-group
-        input.form-control type="text" placeholder="Название курса" ng-model="courseTitle" required=""
+        input.form-control type="text" placeholder="Course Name" ng-model="courseTitle" required=""
         '
-        button.btn.btn-success ng-disabled="CourseForm.$invalid" Добавить курс
-      .form-group ng-bind-template="Пройдено курсов {{ (allAccounts | filter: {passed: true}).length }}"
-      .form-group ng-bind-template="из {{allAccounts.length}}"
+        button.btn.btn-success ng-disabled="CourseForm.$invalid" Add Item
+      .form-group Passed {{(allAccounts | filter: {passed: true}).length}}
+      .form-group of {{allAccounts.length}}
 
-    table.table.table-bordered
+    table.table.table-bordered.table-hover.vert-align
       thead
         tr
-          td Название курса
-          td Дата создания
-          td Состояние
-          td
-          td Удаление
+          td Course Name
+          td colspan="2" Status
+          td Delete
       tbody checked-tr=""
-        tr ng-class="course.passed ? 'success': 'danger'" ng-repeat="course in allAccounts | orderBy : '+created_at' | orderBy : 'passed'"
-          td.course_name {{course.name}}
-          td.course_create {{course.created_at | date : "dd-MM-yyyy"}}
+        tr ng-class="course.passed ? 'success': 'danger'" ng-repeat="course in allAccounts | orderBy : '+created_at'"
+          td.course_name
+            .course_name tap="message" ng-dblclick="editCourse(course, $index)" ng-show="!course.editing" {{course.name}}
+            form.form-inline ng-show="course.editing" ng-submit="course.submit()"
+              input.form-control.input_course_name type="text" ng-model="course.name"
+              button.btn.btn-success Save
+              .btn.btn-warning ng-click="course.editing = false" Close
           td.course_check: input id="checkbox_passed_{{$index}}" type="checkbox" ng-model="course.passed" ng-change="updateCourse(course, $index)"
           td.course_label: label for="checkbox_passed_{{$index}}" {{setDescription(course.passed)}}
-          td.course_delete: span ng-click="deleteCourse(course, $index)" delete
+          td.course_delete
+            .btn.btn-primary ng-click="editCourse(course, $index)" Edit
+            .btn.btn-danger ng-click="deleteCourse(course, $index)" Delete
